@@ -1,0 +1,1 @@
+hello, jhu7600 here, umm this project was made just to laugh my ass off and i built it with chatgpt. dont hate me, i just kinda didnt knew what to do and my brain just said: ai generate pongoOS. siteL https://jhu7600codes.github.io/pongoOS
