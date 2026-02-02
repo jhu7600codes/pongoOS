@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>pongoOS web demo</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      color: #cfd2d6;
+      font-family: monospace;
+      -webkit-font-smoothing: none;
+      font-smooth: never;
+      overflow: hidden;
+    }
+
+    .screen {
+      box-sizing: border-box;
+      padding: 24px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 1;
+      pointer-events: none;
+    }
+      pointer-events: none;
+    }
+
+    .logo img {
+      max-width: 320px;
+      height: auto;
+    }
+
+    .line {
+      white-space: pre;
+    }
+
+    .shell {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .prompt {
+      margin-right: 6px;
+    }
+
+    input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: inherit;
+      font-family: inherit;
+      font-size: inherit;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="screen" id="screen"></div>
+
+  <div class="logo" id="logo"></div>
+
+  <script>
+    const screen = document.getElementById('screen');
+    const logoContainer = document.getElementById('logo');
+
+    const logoImg = new Image();
+    logoImg.src = 'https://i.ibb.co/r2mrbVbN/pongo-OS.png';
+    logoImg.style.maxWidth = '320px';
+    logoImg.style.opacity = '1';
+
+    const asciiLogo = `                                                                                                                            
+                                                                                                                            
+                                                                                                                            
+                                                                                                                            
+                                                                                                                            
+                                                                                                                            
+                                                                                                                            
+                                       @                                                                                    
+                                   @@@@@                                                                                    
+                                 @@@@@@@                                                                                    
+                               @@@@@@@@@                                                                                    
+                              @@@@@@@@                                                                                      
+                              @@@@@@@                                                                                       
+                              @@@@                                                                                          
+                 @@@@@@@@@@      @@@@@@@@@@@@                                                                               
+              @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                                                            
+            @@@@@@@@@ @@ @@@@@@@@@@@@@@@@@@@@@@@@                                                                           
+           @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                                                                             
+          @@@@@@@@          @@@@@@@@@@@@@@@@@@                                                                              
+          @@@@@@@@@        @@@@@@@@@@@@@@@@@@                                                                               
+         @@@@@@@@@@@      @@@@@@@@@@@@@@@@@@                                                                                
+         @@@@@@@@@@@      @@@@@@@@@@@@@@@@@@                                                                                
+         @@@@@@@@@@@      @@@@@@@@@@@@@@@@@@                                                                                
+         @@@@@@@              @@@@@@@@@@@@@@@                                                                               
+          @@@@@@@@@        @@@@@@@@@@@@@@@@@@                                                                               
+         @@ @@@@@@@        @@@@@@@@@@@@@@@@@@@@                                                                             
+         @@ @   @@@        @@@@@@@@ @@@@@@@@@@@@@                                                                           
+         @@@ @@ @@                   @@@@@   @@@@@                                                                          
+         @@@@@@@ @@        @@ @@@@ @@@@@@@@@ @@@@@                                                                          
+         @@@@@@@@@@        @@@@@@@ @@@@@@@@@ @@@@@@                                                                         
+         @@ @@@ @@          @@ @@  @@@@@@@@@ @@@@                                                                           
+         @@@@@@@@@@        @@ @ @@ @@@@@@@@@ @@                                                                             
+         @@@ @@@@@          @@@@@@@ @@@@@@@@@@@                                                                             
+         @@@@@@@ @@@      @@@     @@@@@@@@@                                                                                 
+                @@@@@@@@@@@@@@                                                                                              
+                @@@@@@@@@@@@@@                                                                                              
+              @@@@@@@@@@@@@@@@@@                                                                                            
+              @@@@@@@@@@@@@@@@@@                                                                                            `;
+
+    logoImg.onload = () => {
+      logoContainer.appendChild(logoImg);
+    };
+
+    logoImg.onerror = () => {
+      const pre = document.createElement('pre');
+      pre.textContent = asciiLogo;
+      pre.style.opacity = '1';
+      pre.style.fontSize = '10px';
+      pre.style.lineHeight = '10px';
+      logoContainer.appendChild(pre);
+    };
+
+    const instantBlock = [
+      'WARNING: This is a respring, not full pongoOS',
+      '',
+      '#=================',
+      '#',
+      '# pongoOS 2.4.5-9d12ac8b',
+      '#',
+      '# https://checkra.in',
+      '#',
+      '#=================='
+    ];
+
+    const slowLines = [
+      'Booted by: com.apple.springboardcrash',
+      'Built with: Clang 12.0.0 (clang-1200.0.32.27)',
+      'Running on: com.apple.springboardhelper',
+      'Enabling USB',
+      'synopsys_otg: pongoOS is being booted in respring mode! not initializing...',
+      'Done!',
+      'pongoOSrespring: initializing',
+      'pongoOSrespring: RESPRING STARTED...',
+      'WARNING: RESPRING ERROR, REINITIALIZING...........',
+      'pongoOSrespring: RESPRING STARTED...',
+      'pongoOSrespring: RESPRING DONE!'
+    ];
+
+    function addLine(text) {
+      const div = document.createElement('div');
+      div.className = 'line';
+      div.textContent = text;
+      screen.appendChild(div);
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function sleep(ms) {
+      return new Promise(r => setTimeout(r, ms));
+    }
+
+    async function typeDots(prefix, count = 30, delay = 120) {
+      const div = document.createElement('div');
+      div.className = 'line';
+      div.textContent = prefix;
+      screen.appendChild(div);
+      for (let i = 0; i < count; i++) {
+        await sleep(delay);
+        div.textContent += '.';
+      }
+    }
+
+    function startShell() {
+      const shell = document.createElement('div');
+      shell.className = 'shell';
+
+      const prompt = document.createElement('div');
+      prompt.className = 'prompt';
+      prompt.textContent = 'pongoOS> ';
+
+      const input = document.createElement('input');
+      input.autofocus = true;
+
+      shell.appendChild(prompt);
+      shell.appendChild(input);
+      screen.appendChild(shell);
+
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+          const cmd = input.value.trim();
+          shell.remove();
+          addLine('pongoOS> ' + cmd);
+          handleCommand(cmd);
+        }
+      });
+    }
+
+    function handleCommand(cmd) {
+      if (cmd === '' ) {
+        startShell();
+        return;
+      }
+
+      if (cmd === 'help') {
+        addLine('built-in commands: help clear echo uname');
+      } else if (cmd === 'clear') {
+        screen.innerHTML = '';
+      } else if (cmd.startsWith('echo ')) {
+        addLine(cmd.slice(5));
+      } else if (cmd === 'uname') {
+        addLine('pongoOS');
+      } else {
+        addLine(cmd + ': command not found');
+      }
+
+      startShell();
+    }
+
+    async function run() {
+      instantBlock.forEach(addLine);
+      await sleep(600);
+
+      for (const line of slowLines) {
+        if (line.endsWith('initializing')) {
+          await typeDots(line);
+        } else {
+          addLine(line);
+          await sleep(500);
+        }
+      }
+
+      startShell();
+    }
+
+    run();
+  </script>
+</body>
+</html>
