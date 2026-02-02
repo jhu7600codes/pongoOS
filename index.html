@@ -133,7 +133,7 @@
     };
 
     const instantBlock = [
-      'WARNING: This is a respring, not full pongoOS',
+      'WARNING: This is a web demo, not full pongoOS',
       '',
       '#=================',
       '#',
@@ -145,17 +145,17 @@
     ];
 
     const slowLines = [
-      'Booted by: com.apple.springboardcrash',
+      'Booted by: GitHub Pages',
       'Built with: Clang 12.0.0 (clang-1200.0.32.27)',
-      'Running on: com.apple.springboardhelper',
+      'Running on: urbikshtmlofficial.github.com/pongoOS',
       'Enabling USB',
-      'synopsys_otg: pongoOS is being booted in respring mode! not initializing...',
+      'synopsys_otg: pongoOS is being booted in demo mode! not initializing...',
       'Done!',
-      'pongoOSrespring: initializing',
-      'pongoOSrespring: RESPRING STARTED...',
-      'WARNING: RESPRING ERROR, REINITIALIZING...........',
-      'pongoOSrespring: RESPRING STARTED...',
-      'pongoOSrespring: RESPRING DONE!'
+      'ERROR: pongoOS is in an unexpected state where pushing any file to this device will not work. please make an issue at https://github.com/checkra1n/PongoOS/issues',
+      'pongoOSwebboot: booting...',
+      'WARNING: BOOT ERROR, REINITIALIZING...........',
+      'pongoOSwebboot: booting...',
+      'pongoOSwebboot: booted!'
     ];
 
     function addLine(text) {
@@ -220,6 +220,8 @@
         addLine(cmd.slice(5));
       } else if (cmd === 'uname') {
         addLine('pongoOS');
+      } else if (cmd === 'uname -a') {
+        addLine('pongoOS webboot pongoOS 2.4.5-9d12ac8b WEBDEMO1.0.0 NON-PERSISTENT');
       } else {
         addLine(cmd + ': command not found');
       }
